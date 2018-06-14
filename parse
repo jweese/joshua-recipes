@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+#$ -N parse
+#$ -cwd
+#$ -S /bin/bash
+#$ -l h_vmem=10g
+#$ -l h_rt=00:01:00
+lang=$1
+shift
+tlp=
+opts=()
+case "$lang" in
+  ar)
+    tlp=ArabicTreebankParserParams
+    opts=(-encoding UTF-8 -arabicFactored -tokenized)
+    ;;
+  de)
+    tlp=NegraPennTreebankParserParams
+    opts=(
+      -hMarkov 1
+      -vMarkov 2
+      -vSelSplitCutOff 300
+      -uwm 1
+      -unknownSuffixSize 2
+      -nodeCleanup 2
+    )
+    ;;
+  en)
+    tlp=EnglishTreebankParserParams
+    grammar=englishPCFG.ser.gz
+    ;;
+  fr)
+    tlp=FrenchTreebankParserParams
+    opts=(-frenchFactored -encoding UTF-8)
+    ;;
+  zh)
+    tlp=ChineseTreebankParserParams
+    opts=(
+      -chineseFactored
+      -encoding GB18030
+      -tokenized
+      -sentences newline
+      -escaper edu.stanford.nlp.trees.international.pennchinese.ChineseEscaper
+    )
+    ;;
+  *)
+    printf "unknown language\n" >&2
+    exit 1
+esac
+
+dir=$HOME/src/stanford-parser-full-2018-02-27/
+exec java -Xmx5g -cp "$dir/*" \
+  edu.stanford.nlp.parser.lexparser.LexicalizedParser \
+  -maxLength 50 \
+  -outputFormat penn \
+  -tLPP edu.stanford.nlp.parser.lexparser."$tlp" \
+  "${opts[@]}" \
+  -loadFromSerializedFile \
+  edu/stanford/nlp/models/lexparser/"$grammar" \
+  "$@" 2>/dev/null
