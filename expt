@@ -1,0 +1,42 @@
+#!/bin/bash
+#$ -S /bin/bash
+#$ -cwd
+#$ -l h_rt=12:00:00
+#$ -l h_cpu=
+#$ -l h_vmem=80g
+
+set -u
+set -e
+set -x
+
+grammar=$1
+glue=$2
+dev=$3
+dev_ref=$4
+testset=$5
+test_ref=$6
+
+scripts=$HOME/src/scripts
+
+# do mert
+[[ ! -d tune ]] && mkdir tune
+cp $HOME/templates/decoder_command tune/
+printf "<%s\n" "$dev" >>tune/decoder_command
+sed -e 's|grammar.gz|'"$grammar"'|' \
+    -e 's|glue.grammar|'"$glue"'|' \
+    <$HOME/templates/joshua.config >joshua.config
+cp $HOME/templates/params.txt .
+sed -e 's|<REF>|'"$dev_ref"'|' \
+    < $HOME/templates/mert.config >mert.config
+"$scripts"/zmert mert.config
+
+# decoder test
+[[ ! -d test ]] && mkdir test
+sed -e '/joshua.config/s/config/config.ZMERT.final/' \
+    -e '/</s|<.*|<'"$testset"' \\|' \
+    -e '/tune\/joshua/s/tune/test/g' \
+    <tune/decoder_command >test/decoder_command
+chmod +x test/decoder_command
+test/decoder_command
+"$scripts"/1best <test/joshua.out >test/joshua.1best
+"$scripts"/bleu test/joshua.1best "$test_ref"
