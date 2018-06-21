@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+#$ -N align
+#$ -cwd
+#$ -S /bin/bash
+#$ -l h_vmem=5g
+#$ -l h_rt=00:01:00
+corpus=$1
+en=$2
+fr=$3
+
+if [[ ! -f "$corpus.$en" ]] || [[ ! -f "$corpus.$fr" ]]; then
+  printf "corpus file does not exist\n" >&2
+  exit 1
+fi
+
+exec $HOME/bin/run-giza.pl \
+  -bindir "$HOME/bin" \
+  -root-dir . \
+  -corpus "$corpus" \
+  -e "$en" -f "$fr"
