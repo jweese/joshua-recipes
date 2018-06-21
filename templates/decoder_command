@@ -1,0 +1,8 @@
+#!/bin/bash
+exec java -Xmx10g \
+	-Dfile.encoding=utf8 \
+	-Djava.library.path=$HOME/src/incubator-joshua/lib \
+	-cp $HOME/src/incubator-joshua/target/*-jar-with-dependencies.jar \
+	org.apache.joshua.decoder.JoshuaDecoder \
+  -c joshua.config \
+  >tune/joshua.out 2>tune/joshua.log \

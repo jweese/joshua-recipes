@@ -1,0 +1,27 @@
+tm_pt_0 ||| 0.45713 Opt -Inf +Inf -1 +1
+tm_pt_1 ||| -0.17399 Opt -Inf +Inf -1 +1
+tm_pt_2 ||| -0.78455 Opt -Inf +Inf -1 +1
+tm_pt_3 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_4 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_5 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_6 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_7 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_8 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_9 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_10 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_11 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_12 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_13 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_14 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_15 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_16 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_17 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_18 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_19 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_20 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_pt_21 ||| 0.76254 Opt -Inf +Inf -1 +1
+tm_glue_0 ||| 1.00000 Opt -Inf +Inf -1 +1
+lm_0 ||| 1.32006 Opt 0.1 +Inf +0.5 +1.5
+WordPenalty ||| -2.844814  Opt  -Inf  +Inf  -5   0
+OOVPenalty  ||| 1          Fix     0     0   0   0
+normalization = absval 1 lm_0
