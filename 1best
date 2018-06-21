@@ -1,0 +1,6 @@
+#!/bin/bash
+exec java -mx2g \
+	-Dfile.encoding=utf8 \
+	-Djava.library.path=$HOME/src/incubator-joshua/lib \
+	-cp $HOME/src/incubator-joshua/target/*-jar-with-dependencies.jar \
+	org.apache.joshua.util.ExtractTopCand
