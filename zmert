@@ -1,0 +1,12 @@
+#!/bin/bash
+config=$1
+if [[ -z "$config" ]]; then
+  printf "usage: zmert <config>\n" >&2
+  exit 1
+fi
+
+exec java -d64 -Xmx5g \
+  -cp "$HOME"/src/incubator-joshua/target/*-jar-with-dependencies.jar \
+  org.apache.joshua.zmert.ZMERT \
+  -maxMem 4000 \
+  "$config"
