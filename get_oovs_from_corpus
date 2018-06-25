@@ -1,0 +1,28 @@
+#!/usr/bin/perl -w
+
+my %words;
+
+sub read_vocab {
+  my $file = shift;
+  open CORPUS, "<$file" or die "$!";
+  while (<CORPUS>) {
+    chomp;
+    foreach (split) {
+      $words{$_} = undef;
+    }
+  }
+  close CORPUS;
+}
+
+my $corpus = shift;
+read_vocab($corpus);
+
+my %oov;
+while (<>) {
+  chomp;
+  foreach (split) {
+    $oov{$_} = undef unless (exists($words{$_}));
+  }
+}
+
+print "$_\n" foreach (keys %oov);
