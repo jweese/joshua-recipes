@@ -1,0 +1,36 @@
+#!/bin/bash
+set -u
+set -e
+set -x
+
+fr=$1
+en=$2
+corpus=$3
+alignment=$4
+
+moses=/exp/paulmac/mt/joshua/mosesdecoder
+train_model="$moses"/scripts/training/train-model.perl
+
+train_cmd=("$train_model"
+  -mgiza
+  -mgiza-cpus 10
+  -dont-zip
+  -external-bin-dir "$moses"/bin
+  -f "$fr" -e "$en"
+  -max-phrase-length 5
+  -score-options --GoodTuring
+  -parallel
+  -alignment-file "$alignment"
+  -alignment align
+  -corpus "$corpus")
+
+step() {
+  num=$1
+  shift
+  "${train_cmd[@]}" -first-step "$num" -last-step "$num" "$@"
+}
+
+step 4 -lexical-file lex
+step 5 -extract-file extract
+step 6 -lexical-file lex -extract-file extract -phrase-translation-table tt
+zcat tt.gz | $HOME/incubator-joshua/scripts/support/phrase2hiero.py -moses
