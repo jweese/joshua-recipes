@@ -1,0 +1,14 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $lhs = shift;
+
+while (<>) {
+  chomp;
+  my ($src, $tgts) = split /\t/;
+  $tgts =~ s/\(|\),?//g;
+  my %scored = split " ", $tgts;
+  while (my ($tgt, $feat) = each %scored) {
+    printf "[%s] ||| %s ||| %s ||| %f\n", $lhs, $src, $tgt, $feat;
+  }
+}
