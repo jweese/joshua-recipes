@@ -5,10 +5,12 @@ my $lhs = shift;
 
 while (<>) {
   chomp;
-  my ($src, $tgts) = split /\t/;
+  my (undef, $src, $tgts) = split /: /;
+  $src =~ s/^column-//;
   $tgts =~ s/\(|\),?//g;
   my %scored = split " ", $tgts;
   while (my ($tgt, $feat) = each %scored) {
+    $tgt =~ s/^'row-|',$//g;
     printf "[%s] ||| %s ||| %s ||| %f\n", $lhs, $src, $tgt, $feat;
   }
 }
