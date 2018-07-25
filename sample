@@ -26,7 +26,9 @@ while (<>) {
 
 my %freq;
 while (my ($word, $count) = each %vocab) {
-  push @{$freq{bucket $count}}, $word;
+  my $b = bucket $count;
+  $b = $buckets if $b > $buckets;
+  push @{$freq{$b}}, $word;
 }
 foreach my $i (0..$buckets) {
   my @sample = shuffle @{$freq{$i + 1}};
