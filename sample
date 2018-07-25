@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w
+use strict;
+use List::Util qw(shuffle);
+
+my $buckets = shift;
+my $num = shift;
+unless (defined $num and defined $buckets) {
+  print STDERR "usage: sample <buckets> <words per bucket>\n";
+  exit 1;
+}
+
+sub log10 {
+  my $x = shift;
+  log($x) / log(10);
+}
+
+sub bucket {
+  int log10 $_[0];
+}
+
+my %vocab;
+while (<>) {
+  chomp;
+  $vocab{$_}++ foreach split;
+}
+
+my %freq;
+while (my ($word, $count) = each %vocab) {
+  push @{$freq{bucket $count}}, $word;
+}
+foreach my $i (0..$buckets) {
+  my @sample = shuffle @{$freq{$i + 1}};
+  foreach (@sample[0..$num]) {
+    print "$_\n" if defined;
+  }
+}
