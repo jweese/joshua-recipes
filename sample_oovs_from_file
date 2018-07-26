@@ -1,0 +1,5 @@
+#!/bin/bash
+num=$1
+shift
+printf -v freq "0\t0"
+exec paste <(shuf -n "$num" <(cat "$@")) <(yes "$freq" | head -n"$num")
