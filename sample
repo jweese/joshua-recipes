@@ -33,6 +33,8 @@ while (my ($word, $count) = each %vocab) {
 foreach my $i (0..$buckets) {
   my @sample = shuffle @{$freq{$i + 1}};
   foreach (@sample[0..$num]) {
-    print "$_\n" if defined;
+    if (defined) {
+      printf "%s\t%d\t%d\n", $_, $vocab{$_}, $i + 1;
+    }
   }
 }
